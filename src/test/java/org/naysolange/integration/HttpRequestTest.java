@@ -43,7 +43,7 @@ public class HttpRequestTest {
     }
 
     @Test
-    public void shouldReturnTwoTexts() {
+    public void shouldReturnOkStatusAndTwoTexts() {
         givenATableWithTexts();
         whenGetTexts();
         thenReturnTwoTextsSuccessfully();
