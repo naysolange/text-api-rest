@@ -9,11 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,6 +32,8 @@ public class HttpRequestTest {
     private TextRepository repository;
 
     private ResponseEntity<List<Text>> response;
+
+    private ResponseEntity<Text> postResponse;
 
     @BeforeEach
     public void setUp() {
@@ -55,6 +59,12 @@ public class HttpRequestTest {
         thenReturnNoContentStatus();
     }
 
+    @Test
+    public void shouldSaveTextAndReturnCreatedStatus() {
+        whenSaveText();
+        thenSaveTextAndReturnCreatedStatus();
+    }
+
     private void givenATableWithTexts() {
         repository.save(new Text("Texto 1"));
         repository.save(new Text("Texto 2"));
@@ -78,5 +88,23 @@ public class HttpRequestTest {
 
     private void thenReturnNoContentStatus() {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    }
+
+    private void whenSaveText() {
+        HttpEntity<Text> request = new HttpEntity<>(new Text("A new text"));
+
+        this.postResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/",
+                HttpMethod.POST,
+                request,
+                Text.class
+        );
+    }
+
+    private void thenSaveTextAndReturnCreatedStatus() {
+        assertThat(postResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        Text createdText = Objects.requireNonNull(postResponse.getBody());
+        assertThat(createdText.getContent()).isEqualTo("A new text");
+        assertThat(createdText.getId()).isNotNull();
     }
 }
