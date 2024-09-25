@@ -46,7 +46,7 @@ public class HttpRequestTest {
     public void shouldReturnOkStatusAndTwoTexts() {
         givenATableWithTexts();
         whenGetTexts();
-        thenReturnTwoTextsSuccessfully();
+        thenReturnTwoRandomTextsWithOkStatus();
     }
 
     @Test
@@ -71,7 +71,7 @@ public class HttpRequestTest {
         );
     }
 
-    private void thenReturnTwoTextsSuccessfully() {
+    private void thenReturnTwoRandomTextsWithOkStatus() {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).hasSize(2);
     }
