@@ -61,13 +61,19 @@ public class HttpRequestTest {
 
     @Test
     public void shouldSaveTextAndReturnCreatedStatus() {
-        whenSaveText("A new text");
+        whenSaveText(new Text("A new text"));
         thenSaveTextAndReturnCreatedStatus();
     }
 
     @Test
-    public void shouldNotSaveTextAndReturnBadRequestStatus() {
-        whenSaveText("");
+    public void shouldNotSaveTextAndReturnBadRequestWhenContentIsBlank() {
+        whenSaveText(new Text(""));
+        thenNotSaveTextAndReturnBadRequestStatus();
+    }
+
+    @Test
+    public void shouldNotSaveTextAndReturnBadRequestWhenContentIsNull() {
+        whenSaveText(new Text(null));
         thenNotSaveTextAndReturnBadRequestStatus();
     }
 
@@ -102,8 +108,8 @@ public class HttpRequestTest {
         assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 
-    private void whenSaveText(String content) {
-        HttpEntity<Text> request = new HttpEntity<>(new Text(content));
+    private void whenSaveText(Text text) {
+        HttpEntity<Text> request = new HttpEntity<>(text);
 
         this.postResponse = restTemplate.exchange(
                 "http://localhost:" + port + "/",

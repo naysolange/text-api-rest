@@ -32,7 +32,7 @@ public class TextController {
 
     @PostMapping
     ResponseEntity<Text> createText(@RequestBody Text text) {
-        if(text.getContent().isBlank()) {
+        if(text.getContent() == null || text.getContent().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } else {
             Text savedText = repository.save(text);
