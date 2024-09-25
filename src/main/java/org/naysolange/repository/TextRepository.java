@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TextRepository extends JpaRepository<Text, Long> {
-    @Query(value = "SELECT * FROM text LIMIT :amount", nativeQuery = true)
+    @Query(value = "SELECT * FROM text ORDER BY RAND() LIMIT :amount", nativeQuery = true)
     List<Text> findLimited(@Param("amount") int amount);
 }
