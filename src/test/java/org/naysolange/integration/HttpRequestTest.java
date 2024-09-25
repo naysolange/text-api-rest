@@ -10,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class HttpRequestTest {
     public void shouldReturnTwoTexts() {
         givenATableWithTexts();
         whenGetTexts();
-        thenReturnTwoTexts();
+        thenReturnTwoTextsSuccessfully();
     }
 
     private void givenATableWithTexts() {
@@ -64,7 +65,8 @@ public class HttpRequestTest {
         );
     }
 
-    private void thenReturnTwoTexts() {
+    private void thenReturnTwoTextsSuccessfully() {
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).hasSize(2);
     }
 }
