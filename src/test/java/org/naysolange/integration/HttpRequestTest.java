@@ -31,7 +31,7 @@ public class HttpRequestTest {
     @Autowired
     private TextRepository repository;
 
-    private ResponseEntity<List<Text>> response;
+    private ResponseEntity<List<Text>> getResponse;
 
     private ResponseEntity<Text> postResponse;
 
@@ -66,13 +66,13 @@ public class HttpRequestTest {
     }
 
     private void givenATableWithTexts() {
-        repository.save(new Text("Texto 1"));
-        repository.save(new Text("Texto 2"));
-        repository.save(new Text("Texto 3"));
+        repository.save(new Text("Text 1"));
+        repository.save(new Text("Text 2"));
+        repository.save(new Text("Text 3"));
     }
 
     private void whenGetTexts() {
-        this.response = restTemplate.exchange(
+        this.getResponse = restTemplate.exchange(
                 "http://localhost:" + port + "/{amount}",
                 HttpMethod.GET,
                 null,
@@ -82,12 +82,12 @@ public class HttpRequestTest {
     }
 
     private void thenReturnTwoRandomTextsWithOkStatus() {
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).hasSize(2);
+        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(getResponse.getBody()).hasSize(2);
     }
 
     private void thenReturnNoContentStatus() {
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 
     private void whenSaveText() {
