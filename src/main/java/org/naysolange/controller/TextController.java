@@ -21,7 +21,7 @@ public class TextController {
     }
 
     @GetMapping("/{amount}")
-    ResponseEntity<List<Text>> get(@PathVariable Integer amount) {
+    ResponseEntity<List<Text>> getTexts(@PathVariable Integer amount) {
         List<Text> texts = repository.findLimited(amount);
         if(texts.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
