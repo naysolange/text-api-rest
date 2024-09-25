@@ -10,7 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -49,6 +49,12 @@ public class HttpRequestTest {
         thenReturnTwoTextsSuccessfully();
     }
 
+    @Test
+    public void shouldReturnNoContentStatus() {
+        whenGetTexts();
+        thenReturnNoContentStatus();
+    }
+
     private void givenATableWithTexts() {
         repository.save(new Text("Texto 1"));
         repository.save(new Text("Texto 2"));
@@ -66,7 +72,11 @@ public class HttpRequestTest {
     }
 
     private void thenReturnTwoTextsSuccessfully() {
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).hasSize(2);
+    }
+
+    private void thenReturnNoContentStatus() {
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 }
