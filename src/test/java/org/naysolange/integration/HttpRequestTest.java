@@ -47,20 +47,20 @@ public class HttpRequestTest {
     }
 
     @Test
-    public void shouldReturnOkStatusAndTwoTexts() {
+    public void shouldReturnOkAndTwoTexts() {
         givenATableWithTexts();
         whenGetTexts();
         thenReturnTwoRandomTextsWithOkStatus();
     }
 
     @Test
-    public void shouldReturnNoContentStatus() {
+    public void shouldReturnNoContent() {
         whenGetTexts();
         thenReturnNoContentStatus();
     }
 
     @Test
-    public void shouldSaveTextAndReturnCreatedStatus() {
+    public void shouldSaveTextAndReturnCreated() {
         whenSaveText(new Text("A new text"));
         thenSaveTextAndReturnCreatedStatus();
     }
@@ -75,12 +75,6 @@ public class HttpRequestTest {
     public void shouldNotSaveTextAndReturnBadRequestWhenContentIsNull() {
         whenSaveText(new Text(null));
         thenNotSaveTextAndReturnBadRequestStatus();
-    }
-
-    private void thenNotSaveTextAndReturnBadRequestStatus() {
-        assertThat(postResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        whenGetTexts();
-        assertThat(getResponse.getBody()).isNullOrEmpty();
     }
 
     private void givenATableWithTexts() {
@@ -124,5 +118,11 @@ public class HttpRequestTest {
         Text createdText = Objects.requireNonNull(postResponse.getBody());
         assertThat(createdText.getContent()).isEqualTo("A new text");
         assertThat(createdText.getId()).isNotNull();
+    }
+
+    private void thenNotSaveTextAndReturnBadRequestStatus() {
+        assertThat(postResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        whenGetTexts();
+        assertThat(getResponse.getBody()).isNullOrEmpty();
     }
 }
