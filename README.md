@@ -1,26 +1,23 @@
 # Text API Rest
 
-This is a Java project built with Spring Boot, featuring API documentation generated using Swagger (OpenAPI). The project uses Gradle with Kotlin DSL for build configuration and an in memory database for testing.
-
-
-
-
-## Versions
-
-- JDK 23
-- Gradle 8.10
-- Spring Boot 3.3.4
-
+This is a Java project built with Spring Boot, featuring API documentation generated using Swagger (OpenAPI). The project uses Gradle with Kotlin DSL for build configuration and an in memory database.
 
 
 
 ## Technologies
 
+- **Java**
 - **Spring Boot**: Makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
-- **Swagger (OpenAPI)**: For interactive API documentation.
 - **Gradle Kotlin DSL**: For dependency management and build configuration.
+- **Swagger (OpenAPI)**: For interactive API documentation.
 
 
+## Versions
+
+- JDK 23
+- Spring Boot 3.3.4
+- Gradle 8.10
+- OpenAPI 2.0.2
 
 
 ## Build, Test and Run
